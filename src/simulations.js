@@ -1,17 +1,25 @@
 import { repeat, mapAccum } from 'ramda';
 
-export const sim = patient => (
+export const simpleSim = patient => (
   [
     patient.updateViruses(),
     patient.getVirusCount(),
   ]
-)
+);
 
-export const simResisitent = patient => (
+export const sim = patientWithDrugs => (
   [
-    patient.updateViruses(),
-    patient.getResistentCount('guttagonol'),
+    patientWithDrugs.updateViruses(),
+    [
+      patientWithDrugs.getVirusCount(),
+      patientWithDrugs.getResistentCount('guttagonol'),
+    ],
   ]
+);
+
+const mergePairs = pairs => pairs.reduce(
+  (acc, pair) => [[...acc[0], pair[0]], [...acc[1], pair[1]]],
+  [[], []]
 )
 
 function runSimulation({
@@ -35,14 +43,16 @@ export function simulationWithDrugs({
     repetitions: repetitions / 2,
   });
     
-  return firstArray.concat(
-    runSimulation({
-      func,
-      patient: newPatient.addDrug('guttagonol')      ,
-      repetitions: repetitions / 2,
-    })[1]
+  return mergePairs(
+    firstArray.concat(
+      runSimulation({
+        func,
+        patient: newPatient.addDrug('guttagonol')      ,
+        repetitions: repetitions / 2,
+      })[1]
+    )
   )
-  }
+}
 
 
 export default runSimulation;

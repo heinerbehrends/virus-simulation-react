@@ -3,7 +3,9 @@ import { pipe } from 'ramda';
 
 function makePatient(intialViruses, maxPop = 1000) {
   let viruses = List(intialViruses);
+
   function getPopDensity() { return viruses.size / maxPop}
+
   function getVirusCount() { return viruses.size };
 
   function getViruses() { return viruses };
@@ -36,8 +38,8 @@ function withDrugs(
     getVirusCount,
     maxPop,
   },
-    drugs = [],
-  ) {
+    drugs = []
+) {
   function addDrug(newDrug) {
     return makePatientWithDrugs({
       initialViruses: getViruses(),
