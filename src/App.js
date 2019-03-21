@@ -3,7 +3,11 @@ import { List }from 'immutable';
 import LineChart from './LineChart';
 import makeVirusArray, { makeResistentVirusArray } from './viruses';
 import makePatient, { makePatientWithDrugs } from './patients';
-import runSimulation, { simulationWithDrugs, sim } from './simulations';
+import runSimulation, { 
+  simulationWithDrugs, 
+  sim,
+  simResisitent,
+ } from './simulations';
 
 const initialViruses = List(
   makeResistentVirusArray(
@@ -26,22 +30,31 @@ const layout = {
 const App = () => (
   <>
     <LineChart 
-      array={
-        runSimulation({
-          func: sim,
-          patient: makePatient(makeVirusArray(100)),
-          repetitions: 300,
-        })[1]
+      arrays={
+        [
+          runSimulation({
+            func: sim,
+            patient: makePatient(makeVirusArray(100)),
+            repetitions: 300,
+          })[1],
+        ]
       } 
       layout={ layout } 
     />
     <LineChart 
-      array= { 
-        simulationWithDrugs({
-          func: sim,
-          patient: Patient,
-          repetitions: 300,
-        })
+      arrays= {
+        [
+          simulationWithDrugs({
+            func: sim,
+            patient: Patient,
+            repetitions: 300,
+          }),
+          simulationWithDrugs({
+            func: simResisitent,
+            patient: Patient,
+            repetitions: 300,
+          }),
+        ]
        }
       layout={ { ...layout, title: 'Virus Population with drug and resistence' } } 
     />

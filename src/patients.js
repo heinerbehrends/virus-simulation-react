@@ -8,15 +8,6 @@ function makePatient(intialViruses, maxPop = 1000) {
 
   function getViruses() { return viruses };
 
-  // function updateViruses() {
-  //   viruses = viruses
-  //     .filter(virus => virus.doesSurvive())
-  //     .concat(
-  //       List(getViruses())      
-  //         .filter(virus => virus.doesReproduce(getPopDensity()))
-  //     );
-  //   return getVirusCount();
-  // };
   function updateViruses() {
     return makePatient(
       viruses.filter(
@@ -42,7 +33,7 @@ function withDrugs(
   {
     getViruses, 
     getPopDensity, 
-    getVirusCount, 
+    getVirusCount,
     maxPop,
   },
     drugs = [],

@@ -1,18 +1,18 @@
-import { List } from 'immutable';
 import { repeat, mapAccum } from 'ramda';
 
-// const simulation = ({ Patient, iterations }) => (
-//   List([...Array(iterations)])
-//   .map(() => Patient.updateViruses())
-//   .map(patient => patient.getVirusCount()).toArray()
-// );
-
-export const sim = patient => {
-  return [
+export const sim = patient => (
+  [
     patient.updateViruses(),
     patient.getVirusCount(),
   ]
-}
+)
+
+export const simResisitent = patient => (
+  [
+    patient.updateViruses(),
+    patient.getResistentCount('guttagonol'),
+  ]
+)
 
 function runSimulation({
   func, patient, repetitions
