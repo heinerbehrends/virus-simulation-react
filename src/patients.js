@@ -45,17 +45,20 @@ function withDrugs(
       initialViruses: getViruses(),
       maxPop,
     }, drugs = [...drugs, newDrug])
-  }
+  };
 
   function getResistentCount(drug) {
     return (
-      getViruses().filter(virus => virus.survivesDrugs([drug])).size
+      getViruses().filter(virus => virus.isResistent([drug])).size
       );
     };
     
   function createOffspring(viruses) {
+    console.log(drugs)
     return viruses.concat(
       viruses.filter(
+        virus => virus.isResistent(drugs)
+      ).filter(
         virus => virus.doesReproduce(getPopDensity())
       ).map(
         virus => virus.mutateResistences()
@@ -65,7 +68,7 @@ function withDrugs(
 
   function filterByDrugs(viruses) {
     return viruses.filter(
-      virus => virus.survivesDrugs(drugs)
+      virus => virus.isResistent(drugs)
     )
   };
 
@@ -77,18 +80,18 @@ function withDrugs(
 
   function nextGen(viruses) {
     return pipe(
-      filterByDrugs,
       filterByDeath,
       createOffspring,  
     )(viruses)
-  } 
+  };
   
   function updateViruses() {
     return makePatientWithDrugs({
-      initialViruses: nextGen(getViruses()),
-      maxPop,
-    })
-  }
+        initialViruses: nextGen(getViruses()),
+        maxPop,
+      }, drugs
+    )
+  };
 
   return Object.freeze({
     getPopDensity,

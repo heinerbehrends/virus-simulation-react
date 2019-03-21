@@ -1,5 +1,6 @@
 import React from 'react';
 import { List }from 'immutable';
+import { curry, pipe } from 'ramda';
 import LineChart from './LineChart';
 import makeVirusArray, { makeResistentVirusArray } from './viruses';
 import makePatient, { makePatientWithDrugs } from './patients';
@@ -16,6 +17,31 @@ const Patient = makePatientWithDrugs({
   initialViruses,
   maxPop: 1000,
 });
+
+const repeatVirusUpdate = curry(
+  (iterations, patient) => (
+    List([...Array(iterations)]).reduce(
+      acc => acc.updateViruses(),
+      patient
+    )
+  )
+);
+const addDrug = curry(
+  (drug, patient) => patient.addDrug(drug)
+);
+
+const histoSim = drugTime => pipe(
+  repeatVirusUpdate(drugTime),
+  addDrug('guttagonol'),
+  repeatVirusUpdate(150),
+)
+const makeHistoSimArray = ({repetitions, drugTime}) => (
+  List([...Array(repetitions)]).map(
+    () => histoSim(drugTime)(Patient).getVirusCount()
+  )
+)
+
+console.log(makeHistoSimArray({repetitions: 50, drugTime: 50}).toArray())
 
 const layout = { 
   width: 320, 

@@ -16,10 +16,14 @@ const makeSimpleVirus = (birthProb = 0.1, clearProb = 0.05) => {
     })
 } ;
 
-function withResistence (initialResistences, muteProb = 0.005) {
+function withResistences ({ birthProb, doesSurvive, doesReproduce }, initialResistences, muteProb = 0.005) {
   let resistences = initialResistences;
 
   const isResistentAgainst = drug => resistences[drug];
+
+  // const doesReproduce = (popDensity, drugs) => {
+  //   return Math.random() < birthProb * (1 - popDensity) && isResistent(drugs)
+  // }
 
   function mutateResistences() {
     const mutateResistence = resistence => (
@@ -32,7 +36,7 @@ function withResistence (initialResistences, muteProb = 0.005) {
     )
   }
 
-  const survivesDrugs = drugs => {
+  const isResistent = drugs => {
     if (drugs.length) {
       return drugs.reduce(
         (bool, drug) => bool ? isResistentAgainst(drug) : false,
@@ -43,14 +47,16 @@ function withResistence (initialResistences, muteProb = 0.005) {
   };  
 
   return Object.freeze({
+    doesSurvive,
+    doesReproduce,
     isResistentAgainst,
     mutateResistences,
-    survivesDrugs,
+    isResistent,
   });
 };
 
 export const makeResistentVirus = resistences => (
-  { ...makeSimpleVirus(), ...withResistence(resistences)}
+  withResistences(makeSimpleVirus(), resistences)
 );
 
 const makeVirusArray = length => Array(length).fill(makeSimpleVirus());
