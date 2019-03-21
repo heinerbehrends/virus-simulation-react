@@ -54,7 +54,6 @@ function withDrugs(
     };
     
   function createOffspring(viruses) {
-    console.log(drugs)
     return viruses.concat(
       viruses.filter(
         virus => virus.isResistent(drugs)

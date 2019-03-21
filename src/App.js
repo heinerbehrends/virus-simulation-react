@@ -2,6 +2,7 @@ import React from 'react';
 import { List }from 'immutable';
 import { curry, pipe } from 'ramda';
 import LineChart from './LineChart';
+import Histogram from './Histogram';
 import makeVirusArray, { makeResistentVirusArray } from './viruses';
 import makePatient, { makePatientWithDrugs } from './patients';
 import runSimulation, { simulationWithDrugs, simpleSim, sim } from './simulations';
@@ -70,6 +71,12 @@ const App = () => (
         })
        }
       layout={ { ...layout, title: 'Virus Population with drug and resistence' } } 
+    />
+    <Histogram
+      array={
+        makeHistoSimArray({repetitions: 50, drugTime: 150}).toArray()
+      }
+      layout={ { ...layout, title: 'Histogram of virus population' } } 
     />
   </>
 );
