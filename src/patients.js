@@ -8,44 +8,52 @@ function makePatient(intialViruses, maxPop = 1000) {
 
   function getViruses() { return viruses };
 
-  function setViruses(newViruses) { viruses = newViruses; };
-
+  // function updateViruses() {
+  //   viruses = viruses
+  //     .filter(virus => virus.doesSurvive())
+  //     .concat(
+  //       List(getViruses())      
+  //         .filter(virus => virus.doesReproduce(getPopDensity()))
+  //     );
+  //   return getVirusCount();
+  // };
   function updateViruses() {
-    viruses = viruses
-      .filter(virus => virus.doesSurvive())
-      .concat(
-        List(getViruses())      
-          .filter(virus => virus.doesReproduce(getPopDensity()))
-      );
-    return getVirusCount();
-  };
+    return makePatient(
+      viruses.filter(
+        virus => virus.doesSurvive()
+      ).concat(
+        List(getViruses()).filter(
+          virus => virus.doesReproduce(getPopDensity())
+        )
+      )
+    )
+  }
 
   return Object.freeze({
     getPopDensity,
+    maxPop,
     getViruses,
-    setViruses,
     getVirusCount,
     updateViruses,
   });
 };
 
-function withDrugs(simplePatient, drugs = []) {
-  const {
+function withDrugs(
+  {
     getViruses, 
-    setViruses, 
     getPopDensity, 
-    getVirusCount 
-  } = simplePatient;
+    getVirusCount, 
+    maxPop,
+  },
+    drugs = [],
+  ) {
   function addDrug(newDrug) {
-    drugs = [...drugs, newDrug];
+    return makePatientWithDrugs({
+      initialViruses: getViruses(),
+      maxPop,
+    }, drugs = [...drugs, newDrug])
   }
-  // function addDrug(drugs) {
-  //   return makePatientWithDrugs(makePatient(getViruses()), drugs)
-  // }
-  function getDrugs() {
-    return drugs
-  }
-  
+
   function getResistentCount(drug) {
     return (
       getViruses().filter(virus => virus.survivesDrugs([drug])).size
@@ -61,19 +69,19 @@ function withDrugs(simplePatient, drugs = []) {
       ),
     );
   };
-  function log() {
-    console.log(this)
-  }
+
   function filterByDrugs(viruses) {
     return viruses.filter(
       virus => virus.survivesDrugs(drugs)
     )
   };
+
   function filterByDeath(viruses) {
     return viruses.filter(
       virus => virus.doesSurvive()
     )
   };
+
   function nextGen(viruses) {
     return pipe(
       filterByDrugs,
@@ -82,11 +90,7 @@ function withDrugs(simplePatient, drugs = []) {
     )(viruses)
   } 
   
-  // function updateViruses() {
-  //   this.setViruses(nextGen(this.getViruses()))
-  // }
   function updateViruses() {
-    const {maxPop, getViruses } = this;
     return makePatientWithDrugs({
       initialViruses: nextGen(getViruses()),
       maxPop,
@@ -95,19 +99,15 @@ function withDrugs(simplePatient, drugs = []) {
 
   return Object.freeze({
     getPopDensity,
-    getViruses,
-    setViruses,
     getVirusCount,
     getResistentCount,
     updateViruses,
-    log,
     addDrug,
-    getDrugs,
   })
 };
 
-export const makePatientWithDrugs = ({ initialViruses, maxPop }) => {
-  return withDrugs(makePatient(initialViruses, maxPop))
+export const makePatientWithDrugs = ({ initialViruses, maxPop }, drugs) => {
+  return withDrugs(makePatient(initialViruses, maxPop), drugs)
 }
 
 

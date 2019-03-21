@@ -1,3 +1,5 @@
+import { map } from 'ramda';
+
 const makeSimpleVirus = (birthProb = 0.1, clearProb = 0.05) => {
   function doesReproduce(popDensity) {
     return Math.random() < birthProb * (1 - popDensity);
@@ -5,18 +7,13 @@ const makeSimpleVirus = (birthProb = 0.1, clearProb = 0.05) => {
   function doesSurvive() {
     return Math.random() > clearProb;
   };
+  
   return Object.freeze({
     birthProb,
     clearProb,
     doesSurvive,
     doesReproduce,
-  
-    reproduce: popDensity => (
-      doesReproduce(popDensity)
-        ? makeSimpleVirus()
-        : null
-    ),
-  })
+    })
 } ;
 
 function withResistence (initialResistences, muteProb = 0.005) {
@@ -25,23 +22,15 @@ function withResistence (initialResistences, muteProb = 0.005) {
   const isResistentAgainst = drug => resistences[drug];
 
   function mutateResistences() {
-    const newResistences = (
-      Object.keys(resistences).reduce(
-        (resObj, drug) => (
-          Math.random() < muteProb
-            ? {
-              ...resObj, 
-              ...{ [drug]: !resistences[drug] },
-            }
-            : {
-              ...resistences,
-              ...resObj,
-            }
-        ), {}
-      )
+    const mutateResistence = resistence => (
+      Math.random() < muteProb
+      ? !resistence
+      : resistence
     );
-    return makeResistentVirus(newResistences)
-  };
+    return makeResistentVirus(
+      map(mutateResistence, resistences)
+    )
+  }
 
   const survivesDrugs = drugs => {
     if (drugs.length) {
@@ -51,9 +40,7 @@ function withResistence (initialResistences, muteProb = 0.005) {
       )
     }
     return true;
-  }; 
-  
-  
+  };  
 
   return Object.freeze({
     isResistentAgainst,

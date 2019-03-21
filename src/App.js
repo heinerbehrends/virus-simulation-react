@@ -1,10 +1,9 @@
 import React from 'react';
 import { List }from 'immutable';
-import { repeat, mapAccum } from 'ramda';
 import LineChart from './LineChart';
 import makeVirusArray, { makeResistentVirusArray } from './viruses';
 import makePatient, { makePatientWithDrugs } from './patients';
-import simulation from './simulations';
+import runSimulation, { simulationWithDrugs, sim } from './simulations';
 
 const initialViruses = List(
   makeResistentVirusArray(
@@ -18,46 +17,6 @@ const Patient = makePatientWithDrugs({
   maxPop: 1000,
 });
 
-const sim = patient => {
-  return [
-    patient.updateViruses(),
-    patient.getVirusCount(),
-  ]
-}
-
-function runSimulation({
-  func, patient, repetitions
-}) {
-  return mapAccum(
-    func,
-    patient,
-    repeat(null, repetitions)
-  )
-}
-
-
-function simulationWithDrugs({
-  func,
-  patient,
-  repetitions,
-}) {
-  const [newPatient, firstArray] = runSimulation({
-    func,
-    patient,
-    repetitions: repetitions / 2,
-  });
-  
-  newPatient.addDrug('guttagonol')
-  
-  return firstArray.concat(
-    runSimulation({
-      func,
-      patient: newPatient,
-      repetitions: repetitions / 2,
-    })[1]
-  )
-  }
-
 const layout = { 
   width: 320, 
   height: 240, 
@@ -68,10 +27,11 @@ const App = () => (
   <>
     <LineChart 
       array={
-        simulation({
-          Patient: makePatient(makeVirusArray(100)),
-          iterations: 300,
-        })    
+        runSimulation({
+          func: sim,
+          patient: makePatient(makeVirusArray(100)),
+          repetitions: 300,
+        })[1]
       } 
       layout={ layout } 
     />
