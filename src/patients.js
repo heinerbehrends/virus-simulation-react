@@ -2,7 +2,7 @@ import { List } from 'immutable';
 import { pipe } from 'ramda';
 
 function makePatient(intialViruses, maxPop = 1000) {
-  let viruses = List(intialViruses);
+  const viruses = List(intialViruses);
 
   function getPopDensity() { return viruses.size / maxPop}
 
@@ -44,7 +44,8 @@ function withDrugs(
     return makePatientWithDrugs({
       initialViruses: getViruses(),
       maxPop,
-    }, drugs = [...drugs, newDrug])
+      drugs: [...drugs, newDrug],
+    })
   };
 
   function getResistentCount(drug) {
@@ -88,7 +89,8 @@ function withDrugs(
     return makePatientWithDrugs({
         initialViruses: nextGen(getViruses()),
         maxPop,
-      }, drugs
+        drugs,
+      }
     )
   };
 
@@ -101,7 +103,7 @@ function withDrugs(
   })
 };
 
-export const makePatientWithDrugs = ({ initialViruses, maxPop }, drugs) => {
+export const makePatientWithDrugs = ({ initialViruses, maxPop, drugs }) => {
   return withDrugs(makePatient(initialViruses, maxPop), drugs)
 }
 
