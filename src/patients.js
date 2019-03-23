@@ -13,10 +13,10 @@ function makePatient(intialViruses, maxPop = 1000) {
   function updateViruses() {
     return makePatient(
       viruses.filter(
-        virus => virus.doesSurvive()
+        virus => virus.get('doesSurvive')()
       ).concat(
         List(getViruses()).filter(
-          virus => virus.doesReproduce(getPopDensity())
+          virus => virus.get('doesReproduce')(getPopDensity())
         )
       )
     )
@@ -50,31 +50,25 @@ function withDrugs(
 
   function getResistentCount(drug) {
     return (
-      getViruses().filter(virus => virus.isResistent([drug])).size
+      getViruses().filter(virus => virus.get('isResistent')([drug])).size
       );
     };
     
   function createOffspring(viruses) {
     return viruses.concat(
       viruses.filter(
-        virus => virus.isResistent(drugs)
+        virus => virus.get('isResistent')(drugs)
       ).filter(
-        virus => virus.doesReproduce(getPopDensity())
+        virus => virus.get('doesReproduce')(getPopDensity())
       ).map(
-        virus => virus.mutateResistences()
+        virus => virus.get('mutateResistences')()
       ),
     );
   };
 
-  function filterByDrugs(viruses) {
-    return viruses.filter(
-      virus => virus.isResistent(drugs)
-    )
-  };
-
   function filterByDeath(viruses) {
     return viruses.filter(
-      virus => virus.doesSurvive()
+      virus => virus.get('doesSurvive')()
     )
   };
 

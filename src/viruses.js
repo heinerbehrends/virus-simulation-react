@@ -1,4 +1,5 @@
 import { map } from 'ramda';
+import { Map } from 'immutable';
 
 const makeSimpleVirus = (birthProb = 0.1, clearProb = 0.05) => {
   function doesReproduce(popDensity) {
@@ -8,7 +9,7 @@ const makeSimpleVirus = (birthProb = 0.1, clearProb = 0.05) => {
     return Math.random() > clearProb;
   };
   
-  return Object.freeze({
+  return Map({
     birthProb,
     clearProb,
     doesSurvive,
@@ -16,14 +17,13 @@ const makeSimpleVirus = (birthProb = 0.1, clearProb = 0.05) => {
     })
 } ;
 
-function withResistences ({ birthProb, doesSurvive, doesReproduce }, initialResistences, muteProb = 0.005) {
-  let resistences = initialResistences;
+function withResistences (virusMap, initialResistences, muteProb = 0.005) {
+  const resistences = initialResistences;
+  const doesSurvive = virusMap.get('doesSurvive');
+  const doesReproduce = virusMap.get('doesReproduce');
+
 
   const isResistentAgainst = drug => resistences[drug];
-
-  // const doesReproduce = (popDensity, drugs) => {
-  //   return Math.random() < birthProb * (1 - popDensity) && isResistent(drugs)
-  // }
 
   function mutateResistences() {
     const mutateResistence = resistence => (
@@ -46,7 +46,7 @@ function withResistences ({ birthProb, doesSurvive, doesReproduce }, initialResi
     return true;
   };  
 
-  return Object.freeze({
+  return Map({
     doesSurvive,
     doesReproduce,
     isResistentAgainst,
@@ -61,7 +61,7 @@ export const makeResistentVirus = resistences => (
 
 const makeVirusArray = length => Array(length).fill(makeSimpleVirus());
 
-export const makeResistentVirusArray = (length, resistences) => Array(length).fill(makeResistentVirus(resistences));
+export const makeResistentVirusArray = ({length, resistences}) => Array(length).fill(makeResistentVirus(resistences));
 
 
 export default makeVirusArray;

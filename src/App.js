@@ -29,10 +29,10 @@ const App = () => (
         simulationWithDrugs({
           func: sim,
           patient: makePatientWithDrugs({
-            initialViruses: makeResistentVirusArray(
-              100, 
-              { guttagonol: false, grimpex: false },
-            ),
+            initialViruses: makeResistentVirusArray({
+              length: 100, 
+              resistences: { guttagonol: false, grimpex: false },
+            }),
             maxPop: 1000,
           }),
           repetitions: 300,
@@ -44,13 +44,13 @@ const App = () => (
       array={
         makeHistoSimArray({
           patient: makePatientWithDrugs({
-            initialViruses: makeResistentVirusArray(
-              100, 
-              { guttagonol: false, grimpex: false },
-            ),
+            initialViruses: makeResistentVirusArray({
+              length: 100, 
+              resistences: { guttagonol: false, grimpex: false },
+            }),
             maxPop: 1000,
           }),
-          repetitions: 50,
+          repetitions: 100,
           drugTime: 150,
         }).toArray()
       }
