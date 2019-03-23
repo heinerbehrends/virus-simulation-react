@@ -50,7 +50,7 @@ const App = () => (
             ),
             maxPop: 1000,
           }),
-          repetitions: 50,
+          repetitions: 100,
           drugTime: 150,
         }).toArray()
       }
