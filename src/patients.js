@@ -66,12 +66,6 @@ function withDrugs(
     );
   };
 
-  function filterByDrugs(viruses) {
-    return viruses.filter(
-      virus => virus.isResistent(drugs)
-    )
-  };
-
   function filterByDeath(viruses) {
     return viruses.filter(
       virus => virus.doesSurvive()
