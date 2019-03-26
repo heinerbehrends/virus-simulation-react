@@ -2,7 +2,6 @@ import { List } from 'immutable';
 
 function makePatient(intialViruses, maxPop) {
   const viruses = List(intialViruses);
-  console.log(maxPop)
   function getPopDensity() { return viruses.size / maxPop}
 
   function getVirusCount() { return viruses.size };

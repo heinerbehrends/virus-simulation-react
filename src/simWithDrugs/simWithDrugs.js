@@ -18,12 +18,13 @@ const mergePairs = pairs => pairs.reduce(
 export function simulationWithDrugs({
   func,
   patient,
-  repetitions,
+  drugTime,
 }) {
+  console.log(drugTime)
   const [newPatient, firstArray] = runSimulation({
     func,
     patient,
-    repetitions: repetitions / 2,
+    repetitions: drugTime,
   });
     
   return mergePairs(
@@ -31,7 +32,7 @@ export function simulationWithDrugs({
       runSimulation({
         func,
         patient: newPatient.addDrug('guttagonol')      ,
-        repetitions: repetitions / 2,
+        repetitions: 300 - drugTime,
       })[1]
     )
   );

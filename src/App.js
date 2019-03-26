@@ -1,9 +1,7 @@
 import React from 'react';
-import LineChart from './simWithDrugs/GraphWithDrugs';
 import Histogram from './Histogram';
 import makeResistentVirusArray from './viruses/resistentVirus';
 import makePatientWithDrugs from './patients/patientWithDrugs';
-import { simulationWithDrugs, sim } from './simWithDrugs/simWithDrugs';
 import makeHistoSimArray from './simulations/histoSims';
 import SimpleGraph from './simpleSim/SimpleGraph';
 import GraphWithDrugs from './simWithDrugs/GraphWithDrugs';
@@ -22,7 +20,6 @@ import GraphWithDrugs from './simWithDrugs/GraphWithDrugs';
 // }).toArray()
 // console.timeEnd('histo')
 
-
 const layout = { 
   width: 320, 
   height: 240, 
@@ -38,22 +35,10 @@ const App = () => (
       layout={ layout } 
     />
     <GraphWithDrugs 
-      arrays= {
-        simulationWithDrugs({
-          func: sim,
-          patient: makePatientWithDrugs({
-            initialViruses: makeResistentVirusArray(
-              100, 
-              { guttagonol: false, grimpex: false },
-            ),
-            maxPop: 1000,
-          }),
-          repetitions: 300,
-        })
-       }
+      drugTime={100}
       layout={ { ...layout, title: 'Virus Population with drug and resistence' } } 
     />
-    {/* <Histogram
+    <Histogram
       array={
         makeHistoSimArray({
           patient: makePatientWithDrugs({
@@ -68,7 +53,7 @@ const App = () => (
         }).toArray()
       }
       layout={ { ...layout, title: 'Histogram of virus population' } } 
-    /> */}
+    />
   </>
 );
 
