@@ -1,7 +1,8 @@
 import React from 'react';
 import LineChart from './LineChart';
 import Histogram from './Histogram';
-import makeVirusArray, { makeResistentVirusArray } from './viruses';
+import makeVirusArray from './viruses/simpleVirus';
+import makeResistentVirusArray from './viruses/resistentVirus';
 import makePatient, { makePatientWithDrugs } from './patients';
 import runSimulation, { simulationWithDrugs, simpleSim, sim } from './simulations/lineChartSims';
 import makeHistoSimArray from './simulations/histoSims';

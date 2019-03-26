@@ -11,11 +11,12 @@ function makePatient(intialViruses, maxPop = 1000) {
   function getViruses() { return viruses };
 
   function updateViruses() {
+
     return makePatient(
       viruses.filter(
         virus => virus.doesSurvive()
       ).concat(
-        List(getViruses()).filter(
+        getViruses().filter(
           virus => virus.doesReproduce(getPopDensity())
         )
       )
