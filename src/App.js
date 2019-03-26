@@ -5,22 +5,24 @@ import makeVirusArray from './viruses/simpleVirus';
 import makeResistentVirusArray from './viruses/resistentVirus';
 import makePatient from './patients/simplePatient';
 import makePatientWithDrugs from './patients/patientWithDrugs';
-import runSimulation, { simulationWithDrugs, simpleSim, sim } from './simulations/lineChartSims';
+import simpleSim, { runSimulation } from './simpleSim/simpleSim';
+import { simulationWithDrugs, sim } from './simulations/lineChartSims';
 import makeHistoSimArray from './simulations/histoSims';
+import SimpleGraph from './simpleSim/SimpleGraph';
 
-console.time('histo')
-makeHistoSimArray({
-  patient: makePatientWithDrugs({
-    initialViruses: makeResistentVirusArray(
-      100, 
-      { guttagonol: false, grimpex: false },
-    ),
-    maxPop: 1000,
-  }),
-  repetitions: 100,
-  drugTime: 150,
-}).toArray()
-console.timeEnd('histo')
+// console.time('histo')
+// makeHistoSimArray({
+//   patient: makePatientWithDrugs({
+//     initialViruses: makeResistentVirusArray(
+//       100, 
+//       { guttagonol: false, grimpex: false },
+//     ),
+//     maxPop: 1000,
+//   }),
+//   repetitions: 100,
+//   drugTime: 150,
+// }).toArray()
+// console.timeEnd('histo')
 
 
 const layout = { 
@@ -31,8 +33,8 @@ const layout = {
 
 const App = () => (
   <>
-    <LineChart 
-      arrays={
+    <SimpleGraph 
+      array={
         runSimulation({
           func: simpleSim,
           patient: makePatient(makeVirusArray(100)),

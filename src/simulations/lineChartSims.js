@@ -1,11 +1,5 @@
 import { repeat, mapAccum } from 'ramda';
-
-export const simpleSim = patient => (
-  [
-    patient.updateViruses(),
-    patient.getVirusCount(),
-  ]
-);
+import { simpleSim, runSimulation } from '../simpleSim/simpleSim';
 
 export const sim = patientWithDrugs => (
   [
@@ -16,16 +10,6 @@ export const sim = patientWithDrugs => (
     ],
   ]
 );
-
-function runSimulation({
-  func, patient, repetitions
-}) {
-  return mapAccum(
-    func,
-    patient,
-    repeat(null, repetitions)
-  )
-};
 
 const mergePairs = pairs => pairs.reduce(
   (acc, pair) => [[...acc[0], pair[0]], [...acc[1], pair[1]]],
