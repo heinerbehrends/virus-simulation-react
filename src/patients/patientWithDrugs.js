@@ -1,25 +1,23 @@
 import { curry, filter, map, pipe, concat } from 'ramda';
-import makePatient, { createOffspring, filterReproduce, filterSurvive } from './simplePatient';
-//import makeVirusArray, { doesSurvive, doesReproduce } from '../viruses/simpleVirus';
+import makePatient, { filterReproduce, filterSurvive } from './simplePatient';
 import makeResistentVirusArray, { isResistent, mutateResistences } from '../viruses/resistentVirus';
 
-export const addDrug = curry((newDrug, {viruses, maxPop, drugs}) => (
-  {
-    viruses,
-    maxPop,
-    drugs: [...drugs, newDrug],
-  }
-));
+export const addDrug = curry(
+  (newDrug, patientWithDrugs) => {
+    return patientWithDrugs.set('drugs', [...patientWithDrugs.get('drugs'), newDrug])
+    }
+  
+);
 
 export const getResistentCount = curry(
-  (drug, { viruses }) => filter(isResistent([drug]), viruses).size
+  (drug, patientWithDrugs) => filter(isResistent([drug]), patientWithDrugs.get('viruses')).size
 );
 
 const filterResistent = drugs => filter(
   isResistent(drugs),
 );
 
-const createOffspringWithDrugs = curry(
+const createOffspringWithDrugs = (
   (popDensity, drugs, viruses) => concat(
     pipe(
       filterReproduce(popDensity),
@@ -28,27 +26,25 @@ const createOffspringWithDrugs = curry(
       )(viruses)
   )
 );
-const nextGen = ({ viruses, maxPop, drugs }) => (
-  pipe(
+const nextGen = (patientWithDrugs) => {
+  const viruses = patientWithDrugs.get('viruses');
+  return pipe(
     filterSurvive(),
-    createOffspringWithDrugs(viruses.size / maxPop, drugs)(viruses),
+    createOffspringWithDrugs(
+      viruses.size / patientWithDrugs.get('maxPop'), 
+      patientWithDrugs.get('drugs'),
+      viruses,
+    ),
   )(viruses)
+};
+
+export const updateViruses = patientWithDrugs => (
+  patientWithDrugs.set('viruses', nextGen(patientWithDrugs))
 );
 
-export const updateViruses = patient => (
-  makePatientWithDrugs(
-    patient.drugs,
-    nextGen(patient),
-  )
-)
-
 const withDrugs = curry(
-  (drugs, { viruses, maxPop }) => (
-    Object.freeze({
-      viruses, 
-      maxPop, 
-      drugs,
-    })
+  (drugs, patient) => (
+    patient.set('drugs', drugs)
   )
 );
 

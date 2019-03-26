@@ -1,16 +1,17 @@
 import { curry } from 'ramda';
+import { Map } from 'immutable';
 
 export const doesReproduce = curry(
-  (popDensity, { birthProb }) => {
-  return Math.random() < birthProb * (1 - popDensity);
+  (popDensity, virus) => {
+  return Math.random() < virus.get('birthProb') * (1 - popDensity);
 });
 
-export function doesSurvive({ clearProb }) {
-  return Math.random() > clearProb;
+export function doesSurvive(virus) {
+  return Math.random() > virus.get('clearProb');
 };
 
 export const makeSimpleVirus = (birthProb = 0.1, clearProb = 0.05) => {
-  return Object.freeze({
+  return Map({
     birthProb,
     clearProb,
   })

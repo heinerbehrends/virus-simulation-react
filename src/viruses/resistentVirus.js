@@ -3,7 +3,8 @@ import { makeSimpleVirus, doesReproduce } from './simpleVirus'
 
 const isResistentAgainst = (drug, resistences) => resistences[drug];
 
-export const isResistent = curry((drugs, { resistences }) => {
+export const isResistent = curry((drugs, patientWithDrugs) => {
+  const resistences = patientWithDrugs.get('resistences');
   if (drugs.length) {
     return drugs.reduce(
       (bool, drug) => bool ? isResistentAgainst(drug, resistences) : false,
@@ -20,23 +21,20 @@ export const doesReproduceWithDrugs = curry(
 });
   
 
-export function mutateResistences({ resistences, muteProb }) {
+export function mutateResistences(patientWithDrugs) {
   const mutateResistence = resistence => (
-    Math.random() < muteProb
+    Math.random() < patientWithDrugs.get('muteProb')
     ? !resistence
     : resistence
   );
-  return makeResistentVirus(
-    map(mutateResistence, resistences)
+  return patientWithDrugs.set(
+    'resistences',
+    map(mutateResistence, patientWithDrugs.get('resistences'))
   )
 }
 
-function withResistences (simpleVirus, resistences, muteProb = 0.005) {
-  return Object.freeze({
-    ...simpleVirus,
-    resistences,
-    muteProb
-  });
+function withResistences(simpleVirus, resistences, muteProb = 0.005) {
+  return simpleVirus.set('resistences', resistences).set('muteProb', muteProb)
 };
 
 export const makeResistentVirus = resistences => (

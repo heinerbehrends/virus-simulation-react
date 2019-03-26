@@ -1,13 +1,14 @@
-import { curry, pipe } from 'ramda';
+import { curry, pipe, reduce, map } from 'ramda';
 import { List }from 'immutable';
 import { getVirusCount } from '../patients/simplePatient';
 import { updateViruses, addDrug } from '../patients/patientWithDrugs';
 
 const repeatVirusUpdate = curry(
   (iterations, patient) => (
-    List([...Array(iterations)]).reduce(
-      acc => updateViruses(acc),
-      patient
+    reduce(
+      patient => updateViruses(patient),
+      patient,
+      List([...Array(iterations)]),
     )
   )
 );
@@ -18,8 +19,9 @@ const histoSim = drugTime => pipe(
   repeatVirusUpdate(150),
 )
 const makeHistoSimArray = ({ patient, repetitions, drugTime }) => (
-  List([...Array(repetitions)]).map(
-    () => getVirusCount(histoSim(drugTime)(patient))
+  map(
+    () => getVirusCount(histoSim(drugTime)(patient)),
+    List([...Array(repetitions)]),
   )
 )
 

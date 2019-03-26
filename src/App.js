@@ -8,27 +8,6 @@ import makePatientWithDrugs from './patients/patientWithDrugs';
 import runSimulation, { simulationWithDrugs, simpleSim, sim } from './simulations/lineChartSims';
 import makeHistoSimArray from './simulations/histoSims';
 
-// console.time('histo')
-// makeHistoSimArray({
-//   patient: withDrugs({
-//     initialViruses: makeResistentVirusArray(
-//       100, 
-//       { guttagonol: false, grimpex: false },
-//     ),
-//     maxPop: 1000,
-//   }),
-//   repetitions: 100,
-//   drugTime: 150,
-// }).toArray()
-// console.timeEnd('histo')
-
-
-const layout = { 
-  width: 320, 
-  height: 240, 
-  title: 'Simple Virus Population Simulation' 
-};
-
 console.time('histo');
 makeHistoSimArray({
   patient: makePatientWithDrugs([], makeResistentVirusArray(100, { guttagonol: false, grimpex: false })),
@@ -36,6 +15,12 @@ makeHistoSimArray({
   drugTime: 150,
 }).toArray();
 console.timeEnd('histo')
+
+const layout = { 
+  width: 320, 
+  height: 240, 
+  title: 'Simple Virus Population Simulation' 
+};
 
 const App = () => (
   <>

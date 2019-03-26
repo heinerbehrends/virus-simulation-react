@@ -2,12 +2,12 @@ import { repeat, mapAccum, concat, reduce } from 'ramda';
 import { updateSimpleViruses, getVirusCount } from '../patients/simplePatient'
 import { updateViruses, getResistentCount, addDrug } from '../patients/patientWithDrugs'
 
-export function simpleSim(patient, value) {
-  return [
+export const simpleSim = patient => (
+  [
     updateSimpleViruses(patient),
     getVirusCount(patient),
   ]
-};
+);
 
 export const sim = patientWithDrugs => (
   [
@@ -40,6 +40,7 @@ export function simulationWithDrugs({
   patient,
   repetitions,
 }) {
+  console.log(patient)
   const [newPatient, firstArray] = runSimulation({
     func,
     patient: patient,
