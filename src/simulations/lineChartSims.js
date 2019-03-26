@@ -1,4 +1,4 @@
-import { repeat, mapAccum } from 'ramda';
+import { repeat, mapAccum, concat, reduce } from 'ramda';
 import { updateSimpleViruses, getVirusCount } from '../patients/simplePatient'
 import { updateViruses, getResistentCount, addDrug } from '../patients/patientWithDrugs'
 
@@ -29,9 +29,10 @@ function runSimulation({
   )
 };
 
-const mergePairs = pairs => pairs.reduce(
+const mergePairs = pairs => reduce(
   (acc, pair) => [[...acc[0], pair[0]], [...acc[1], pair[1]]],
-  [[], []]
+  [[], []],
+  pairs,
 );
 
 export function simulationWithDrugs({
@@ -39,21 +40,19 @@ export function simulationWithDrugs({
   patient,
   repetitions,
 }) {
-  console.log(patient)
   const [newPatient, firstArray] = runSimulation({
     func,
     patient: patient,
     repetitions: repetitions / 2,
   });
-  console.log(firstArray)
-  console.log(addDrug(newPatient, 'guttagonol'))
   return mergePairs(
-    firstArray.concat(
+    concat(
+      firstArray,
       runSimulation({
         func,
-        patient: addDrug(newPatient, 'guttagonol')      ,
+        patient: addDrug('guttagonol', newPatient)      ,
         repetitions: repetitions / 2,
-      })[1]
+      })[1],
     )
   );
 };

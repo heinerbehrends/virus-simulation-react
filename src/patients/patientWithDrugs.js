@@ -3,13 +3,13 @@ import makePatient, { createOffspring, filterReproduce, filterSurvive } from './
 //import makeVirusArray, { doesSurvive, doesReproduce } from '../viruses/simpleVirus';
 import makeResistentVirusArray, { isResistent, mutateResistences } from '../viruses/resistentVirus';
 
-export function addDrug({viruses, maxPop, drugs}, newDrug) {
-  return {
+export const addDrug = curry((newDrug, {viruses, maxPop, drugs}) => (
+  {
     viruses,
     maxPop,
     drugs: [...drugs, newDrug],
   }
-};
+));
 
 export const getResistentCount = curry(
   (drug, { viruses }) => filter(isResistent([drug]), viruses).size

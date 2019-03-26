@@ -29,9 +29,13 @@ const layout = {
   title: 'Simple Virus Population Simulation' 
 };
 
-console.log(
-  makePatientWithDrugs([], makeResistentVirusArray(100, { guttagonol: false, grimpex: false }))
-)
+console.time('histo');
+makeHistoSimArray({
+  patient: makePatientWithDrugs([], makeResistentVirusArray(100, { guttagonol: false, grimpex: false })),
+  repetitions: 100,
+  drugTime: 150,
+}).toArray();
+console.timeEnd('histo')
 
 const App = () => (
   <>
@@ -60,13 +64,7 @@ const App = () => (
     {/* <Histogram
       array={
         makeHistoSimArray({
-          patient: withDrugs({
-            initialViruses: makeResistentVirusArray(
-              100, 
-              { guttagonol: false, grimpex: false },
-            ),
-            maxPop: 1000,
-          }),
+          patient: makePatientWithDrugs([], makeResistentVirusArray(100, { guttagonol: false, grimpex: false })),
           repetitions: 100,
           drugTime: 150,
         }).toArray()
