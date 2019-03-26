@@ -3,7 +3,8 @@ import LineChart from './LineChart';
 import Histogram from './Histogram';
 import makeVirusArray from './viruses/simpleVirus';
 import makeResistentVirusArray from './viruses/resistentVirus';
-import makePatient, { makePatientWithDrugs } from './patients';
+import makePatient from './patients/simplePatient';
+import makePatientWithDrugs from './patients/patientWithDrugs';
 import runSimulation, { simulationWithDrugs, simpleSim, sim } from './simulations/lineChartSims';
 import makeHistoSimArray from './simulations/histoSims';
 
