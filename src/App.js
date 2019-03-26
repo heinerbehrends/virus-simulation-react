@@ -1,24 +1,26 @@
 import React from 'react';
 import LineChart from './LineChart';
 import Histogram from './Histogram';
-import makeVirusArray, { makeResistentVirusArray } from './viruses';
-import makePatient, { makePatientWithDrugs } from './patients';
+import makeVirusArray from './viruses/simpleVirus';
+import makeResistentVirusArray from './viruses/resistentVirus';
+import makePatient from './patients/simplePatient';
+import makePatientWithDrugs from './patients/patientWithDrugs';
 import runSimulation, { simulationWithDrugs, simpleSim, sim } from './simulations/lineChartSims';
 import makeHistoSimArray from './simulations/histoSims';
 
-console.time('histo')
-makeHistoSimArray({
-  patient: makePatientWithDrugs({
-    initialViruses: makeResistentVirusArray(
-      100, 
-      { guttagonol: false, grimpex: false },
-    ),
-    maxPop: 1000,
-  }),
-  repetitions: 100,
-  drugTime: 150,
-}).toArray()
-console.timeEnd('histo')
+// console.time('histo')
+// makeHistoSimArray({
+//   patient: withDrugs({
+//     initialViruses: makeResistentVirusArray(
+//       100, 
+//       { guttagonol: false, grimpex: false },
+//     ),
+//     maxPop: 1000,
+//   }),
+//   repetitions: 100,
+//   drugTime: 150,
+// }).toArray()
+// console.timeEnd('histo')
 
 
 const layout = { 
@@ -27,15 +29,21 @@ const layout = {
   title: 'Simple Virus Population Simulation' 
 };
 
+console.log(
+  makePatientWithDrugs([], makeResistentVirusArray(100, { guttagonol: false, grimpex: false }))
+)
+
 const App = () => (
   <>
     <LineChart 
       arrays={
-        runSimulation({
-          func: simpleSim,
-          patient: makePatient(makeVirusArray(100)),
-          repetitions: 300,
-        })
+        [
+          runSimulation({
+            func: simpleSim,
+            patient: makePatient(makeVirusArray(100)),
+            repetitions: 300,
+          })[1]
+        ]
       } 
       layout={ layout } 
     />
@@ -43,13 +51,7 @@ const App = () => (
       arrays= {
         simulationWithDrugs({
           func: sim,
-          patient: makePatientWithDrugs({
-            initialViruses: makeResistentVirusArray(
-              100, 
-              { guttagonol: false, grimpex: false },
-            ),
-            maxPop: 1000,
-          }),
+          patient: makePatientWithDrugs([], makeResistentVirusArray(100, { guttagonol: false, grimpex: false })),
           repetitions: 300,
         })
        }
@@ -58,7 +60,7 @@ const App = () => (
     {/* <Histogram
       array={
         makeHistoSimArray({
-          patient: makePatientWithDrugs({
+          patient: withDrugs({
             initialViruses: makeResistentVirusArray(
               100, 
               { guttagonol: false, grimpex: false },
