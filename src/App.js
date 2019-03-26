@@ -1,14 +1,12 @@
 import React from 'react';
-import LineChart from './LineChart';
+import LineChart from './simWithDrugs/GraphWithDrugs';
 import Histogram from './Histogram';
-import makeVirusArray from './viruses/simpleVirus';
 import makeResistentVirusArray from './viruses/resistentVirus';
-import makePatient from './patients/simplePatient';
 import makePatientWithDrugs from './patients/patientWithDrugs';
-import simpleSim, { runSimulation } from './simpleSim/simpleSim';
-import { simulationWithDrugs, sim } from './simulations/lineChartSims';
+import { simulationWithDrugs, sim } from './simWithDrugs/simWithDrugs';
 import makeHistoSimArray from './simulations/histoSims';
 import SimpleGraph from './simpleSim/SimpleGraph';
+import GraphWithDrugs from './simWithDrugs/GraphWithDrugs';
 
 // console.time('histo')
 // makeHistoSimArray({
@@ -33,17 +31,13 @@ const layout = {
 
 const App = () => (
   <>
-    <SimpleGraph 
-      array={
-        runSimulation({
-          func: simpleSim,
-          patient: makePatient(makeVirusArray(100)),
-          repetitions: 300,
-        })
-      } 
+    <SimpleGraph
+      startCount={100}
+      repetitions={300}
+      maxPop={1000}
       layout={ layout } 
     />
-    <LineChart 
+    <GraphWithDrugs 
       arrays= {
         simulationWithDrugs({
           func: sim,

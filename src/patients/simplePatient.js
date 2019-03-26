@@ -1,8 +1,8 @@
 import { List } from 'immutable';
 
-function makePatient(intialViruses, maxPop = 1000) {
+function makePatient(intialViruses, maxPop) {
   const viruses = List(intialViruses);
-
+  console.log(maxPop)
   function getPopDensity() { return viruses.size / maxPop}
 
   function getVirusCount() { return viruses.size };
@@ -18,9 +18,10 @@ function makePatient(intialViruses, maxPop = 1000) {
         getViruses().filter(
           virus => virus.doesReproduce(getPopDensity())
         )
-      )
-    )
-  }
+      ),
+      maxPop,
+    );
+  };
 
   return Object.freeze({
     getPopDensity,

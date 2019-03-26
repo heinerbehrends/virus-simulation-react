@@ -1,5 +1,9 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
+import simpleSim, { runSimulation } from './simpleSim';
+import makePatient from '../patients/simplePatient';
+import makeVirusArray from '../viruses/simpleVirus';
+
 
 export const makePlot = arr => (
   [{
@@ -9,10 +13,15 @@ export const makePlot = arr => (
   }]
 );
 
-const SimpleGraph = ({ array, layout }) => {
+const SimpleGraph = ({ startCount, repetitions, maxPop, layout }) => {
+  const [ , simData] = runSimulation({
+    func: simpleSim,
+    patient: makePatient(makeVirusArray(startCount), maxPop),
+    repetitions: repetitions,
+  });
   return (
     <Plot
-      data={ makePlot(array[1]) }
+      data={ makePlot(simData) }
       layout={ layout }
     />
   );
