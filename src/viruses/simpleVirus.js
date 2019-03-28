@@ -14,6 +14,10 @@ export const makeSimpleVirus = (birthProb = 0.1, clearProb = 0.05) => {
     })
 };
 
-const makeVirusArray = length => Array(length).fill(makeSimpleVirus());
+const makeVirusArray = (
+  ({ length, birthProb, clearProb }) => (
+    Array(length).fill(makeSimpleVirus(birthProb, clearProb))
+  )
+);
 
 export default makeVirusArray;

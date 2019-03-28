@@ -5,8 +5,6 @@ import makePatient from '../patients/simplePatient';
 import makeVirusArray from '../viruses/simpleVirus';
 
 export const layout = { 
-  width: 320, 
-  height: 240, 
   title: 'Simple Virus Population Simulation' 
 };
 
@@ -18,10 +16,14 @@ export const makePlot = arr => (
   }
 );
 
-const SimpleGraph = ({ startCount, repetitions, maxPop }) => {
+const SimpleGraph = ({ startCount, repetitions, maxPop, birthProb, clearProb }) => {
   const [ , simData] = runSimulation({
     func: simpleSim,
-    patient: makePatient(makeVirusArray(startCount), maxPop),
+    patient: makePatient(makeVirusArray({
+      length: startCount,
+      birthProb, 
+      clearProb,
+    }), maxPop),
     repetitions: repetitions,
   });
 

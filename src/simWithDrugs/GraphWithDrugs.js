@@ -6,11 +6,11 @@ import makePatientWithDrugs from '../patients/patientWithDrugs';
 import makeResistentVirusArray from '../viruses/resistentVirus';
 
 const GraphWithDrugs = ({ drugTime, title }) => {
-  const makeData = arrays => (
-    arrays.map(
+  function makeData(arrays) {
+    return arrays.map(
       array => makePlot(array)
-    )
-  );
+    );
+  };
   const resultArrays = simulationWithDrugs({
     func: sim,
     patient: makePatientWithDrugs({
