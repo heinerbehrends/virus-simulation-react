@@ -5,7 +5,8 @@ import makePatient from '../patients/simplePatient';
 import makeVirusArray from '../viruses/simpleVirus';
 
 export const layout = { 
-  title: 'Simple Virus Population Simulation' 
+  title: 'Simple Virus Population Simulation',
+  autosize: true,
 };
 
 export const makePlot = arr => (
@@ -16,23 +17,44 @@ export const makePlot = arr => (
   }
 );
 
-const SimpleGraph = ({ startCount, repetitions, maxPop, birthProb, clearProb }) => {
-  const [ , simData] = runSimulation({
-    func: simpleSim,
-    patient: makePatient(makeVirusArray({
-      length: startCount,
-      birthProb, 
-      clearProb,
-    }), maxPop),
-    repetitions: repetitions,
-  });
+const SimpleGraph = ({ simData }) => (
+  <Plot
+    data={[makePlot(simData)]}
+    layout={ layout }
+    useResizeHandler
+    style={{width: "100%"}}
+    yaxis={{styleanchor: "x"}}
+  />
+);
 
-  return (
-    <Plot
-      data={ [makePlot(simData)] }
-      layout={ layout }
-    />
-  );
-};
+// const SimpleGraph = (
+//   {
+//     startCount, 
+//     repetitions, 
+//     maxPop, 
+//     birthProb, 
+//     clearProb,
+//   }
+// ) => {
+//   const [ , simData] = runSimulation({
+//     func: simpleSim,
+//     patient: makePatient(makeVirusArray({
+//       length: startCount,
+//       birthProb, 
+//       clearProb,
+//     }), maxPop),
+//     repetitions,
+//   });
+
+//   return (
+//     <Plot
+//       data={ [makePlot(simData)] }
+//       layout={ layout }
+//       useResizeHandler
+//       style={{width: "100%"}}
+//       yaxis={{styleanchor: "x"}}
+//     />
+//   );
+// };
 
 export default SimpleGraph;

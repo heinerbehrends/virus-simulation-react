@@ -1,4 +1,4 @@
-import { repeat, mapAccum } from 'ramda';
+import { mapAccum } from 'ramda';
 
 const simpleSim = patient => (
   [
@@ -10,11 +10,12 @@ const simpleSim = patient => (
 export function runSimulation({
   func, patient, repetitions
 }) {
-  return mapAccum(
+  const result = mapAccum(
     func,
     patient,
-    repeat(null, repetitions)
-  )
+    [...Array(repetitions)],
+  );
+  return new Promise(resolve => resolve(result));
 };
 
 export default simpleSim;
