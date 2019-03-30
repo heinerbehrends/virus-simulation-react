@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import SimpleGraph from '../simpleSim/SimpleGraph';
 import MultipleInputs from '../NumberInputs/MultipleInputs';
 import Button from '../Button/Button';
-import simpleSim, { runSimulation } from '../simpleSim/simpleSim';
-import makePatient from '../patients/simplePatient';
-import makeVirusArray from '../viruses/simpleVirus';
+import runSimpleSim from '../simpleSim/simpleSim';
 
 const SimpleGraphPage = () => {
   const [maxPop, setMaxPop] = useState(1000);
@@ -16,15 +14,11 @@ const SimpleGraphPage = () => {
 
   useEffect(
     () => {
-      runSimulation({
-        func: simpleSim,
-        patient: makePatient(
-          makeVirusArray({
-            length: 100,
-            birthProb: birthProb / 100, 
-            clearProb: clearProb / 100,
-          }), maxPop,
-        ),
+      runSimpleSim({
+        virusCount: 100,
+        birthProb: birthProb, 
+        clearProb: clearProb,
+        maxPop,
         repetitions,
       }).then(
         ([, simData]) => setSimData(simData)
