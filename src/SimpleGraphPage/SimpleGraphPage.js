@@ -9,19 +9,19 @@ const SimpleGraphPage = () => {
   const [maxPop, setMaxPop] = useState(1000);
   const [birthProb, setBirthProb] = useState(10);
   const [clearProb, setClearProb] = useState(5);
-  const [repetitions, setRepetitions] = useState(300);  
+  const [repetitions, setRepetitions] = useState(300);
   const [simData, setSimData] = useState([...Array(300).fill(100)]);
 
   useEffect(
     () => {
       runSimpleSim({
         virusCount: 100,
-        birthProb: birthProb, 
-        clearProb: clearProb,
+        birthProb,
+        clearProb,
         maxPop,
         repetitions,
       }).then(
-        ([, simData]) => setSimData(simData)
+        ([, data]) => setSimData(data),
       );
     }, [birthProb, clearProb, maxPop, repetitions],
   );
@@ -37,25 +37,25 @@ const SimpleGraphPage = () => {
       <MultipleInputs
         configs={[
           {
-            label: "Maximum virus population",
+            label: 'Maximum virus population',
             func: setMaxPop,
             max: 10000,
             value: maxPop,
           },
           {
-            label: "Probability of producing offspring",
+            label: 'Probability of producing offspring',
             func: setBirthProb,
             max: 100,
             value: birthProb,
           },
           {
-            label: "Probability of dying",
+            label: 'Probability of dying',
             func: setClearProb,
             max: 100,
             value: clearProb,
           },
           {
-            label: "Number of time steps",
+            label: 'Number of time steps',
             func: setRepetitions,
             max: 1000,
             value: repetitions,

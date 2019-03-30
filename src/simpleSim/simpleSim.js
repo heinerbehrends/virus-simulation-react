@@ -10,20 +10,26 @@ const simpleSim = patient => (
 );
 
 export const runSimulation = curry(
-  (func, { virusCount, birthProb, clearProb, maxPop, repetitions }) => {
+  (func, {
+    virusCount,
+    birthProb,
+    clearProb,
+    maxPop,
+    repetitions,
+  }) => {
     const result = mapAccum(
       func,
       makePatient(
         makeVirusArray({
           virusCount,
-          birthProb: birthProb / 100, 
+          birthProb: birthProb / 100,
           clearProb: clearProb / 100,
         }), maxPop,
       ),
       [...Array(repetitions)],
     );
     return new Promise(resolve => resolve(result));
-  }
+  },
 );
 
 const runSimpleSim = runSimulation(simpleSim);

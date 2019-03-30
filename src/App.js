@@ -5,16 +5,16 @@ import Histogram from './histoSim/Histogram';
 import GraphWithDrugs from './simWithDrugs/GraphWithDrugs';
 
 const PageWithDrugs = () => (
-  <GraphWithDrugs 
+  <GraphWithDrugs
     drugTime={100}
-    title={'Virus Population with drug and resistence'} 
+    title="Virus Population with drug and resistence"
   />
 );
 
 const HistoPage = () => (
   <Histogram
     drugTime={150}
-    title={'Histogram of virus population'}
+    title="Histogram of virus population"
   />
 );
 

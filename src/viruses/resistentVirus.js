@@ -1,30 +1,31 @@
 import { map } from 'ramda';
 import { makeSimpleVirus } from './simpleVirus';
 
-function withResistences ({ doesSurvive, doesReproduce }, initialResistences, muteProb = 0.005) {
-  let resistences = initialResistences;
+function withResistences({ doesSurvive, doesReproduce }, initialResistences, muteProb = 0.005) {
+  const resistences = initialResistences;
   const isResistentAgainst = drug => resistences[drug];
 
   function mutateResistences() {
     const mutateResistence = resistence => (
       Math.random() < muteProb
-      ? !resistence
-      : resistence
+        ? !resistence
+        : resistence
     );
-    return makeResistentVirus(
-      map(mutateResistence, resistences)
-    )
+    return withResistences(
+      makeSimpleVirus(),
+      map(mutateResistence, resistences),
+    );
   }
 
-  const isResistent = drugs => {
+  const isResistent = (drugs) => {
     if (drugs.length) {
       return drugs.reduce(
-        (bool, drug) => bool ? isResistentAgainst(drug) : false,
+        (bool, drug) => (bool ? isResistentAgainst(drug) : false),
         true,
-      )
+      );
     }
     return true;
-  };  
+  };
 
   return Object.freeze({
     doesSurvive,
@@ -33,12 +34,14 @@ function withResistences ({ doesSurvive, doesReproduce }, initialResistences, mu
     mutateResistences,
     isResistent,
   });
-};
+}
 
 export const makeResistentVirus = resistences => (
   withResistences(makeSimpleVirus(), resistences)
 );
 
-const makeResistentVirusArray = (length, resistences) => Array(length).fill(makeResistentVirus(resistences));
+const makeResistentVirusArray = (
+  (length, resistences) => Array(length).fill(makeResistentVirus(resistences))
+);
 
 export default makeResistentVirusArray;

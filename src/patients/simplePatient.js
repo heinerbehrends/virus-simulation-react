@@ -2,25 +2,24 @@ import { List } from 'immutable';
 
 function makePatient(intialViruses, maxPop) {
   const viruses = List(intialViruses);
-  function getPopDensity() { return viruses.size / maxPop}
+  function getPopDensity() { return viruses.size / maxPop; }
 
-  function getVirusCount() { return viruses.size };
+  function getVirusCount() { return viruses.size; }
 
-  function getViruses() { return viruses };
+  function getViruses() { return viruses; }
 
   function updateViruses() {
-
     return makePatient(
       viruses.filter(
-        virus => virus.doesSurvive()
+        virus => virus.doesSurvive(),
       ).concat(
         getViruses().filter(
-          virus => virus.doesReproduce(getPopDensity())
-        )
+          virus => virus.doesReproduce(getPopDensity()),
+        ),
       ),
       maxPop,
     );
-  };
+  }
 
   return Object.freeze({
     getPopDensity,
@@ -29,6 +28,6 @@ function makePatient(intialViruses, maxPop) {
     getVirusCount,
     updateViruses,
   });
-};
+}
 
 export default makePatient;

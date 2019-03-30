@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 
-export const layout = { 
+export const layout = {
   title: 'Simple Virus Population Simulation',
   autosize: true,
 };
@@ -17,11 +18,15 @@ export const makePlot = arr => (
 const SimpleGraph = ({ simData }) => (
   <Plot
     data={[makePlot(simData)]}
-    layout={ layout }
+    layout={layout}
     useResizeHandler
-    style={{width: "100%"}}
-    yaxis={{styleanchor: "x"}}
+    style={{ width: '100%' }}
+    yaxis={{ styleanchor: 'x' }}
   />
 );
+
+SimpleGraph.propTypes = {
+  simData: PropTypes.arrayOf(PropTypes.numbers).isRequired,
+};
 
 export default SimpleGraph;

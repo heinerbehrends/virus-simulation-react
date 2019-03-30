@@ -12,7 +12,7 @@ export const sim = patientWithDrugs => (
 
 const mergePairs = pairs => pairs.reduce(
   (acc, pair) => [[...acc[0], pair[0]], [...acc[1], pair[1]]],
-  [[], []]
+  [[], []],
 );
 
 export function simulationWithDrugs({
@@ -20,22 +20,21 @@ export function simulationWithDrugs({
   patient,
   drugTime,
 }) {
-  console.log(drugTime)
   const [newPatient, firstArray] = runSimulation({
     func,
     patient,
     repetitions: drugTime,
   });
-    
+
   return mergePairs(
     firstArray.concat(
       runSimulation({
         func,
-        patient: newPatient.addDrug('guttagonol')      ,
+        patient: newPatient.addDrug('guttagonol'),
         repetitions: 300 - drugTime,
-      })[1]
-    )
+      })[1],
+    ),
   );
-};
+}
 
 export default runSimulation;
