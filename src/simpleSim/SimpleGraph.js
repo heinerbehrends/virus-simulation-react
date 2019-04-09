@@ -21,7 +21,6 @@ const SimpleGraph = ({ simData }) => (
     layout={layout}
     useResizeHandler
     style={{ width: '100%' }}
-    yaxis={{ styleanchor: 'x' }}
   />
 );
 
