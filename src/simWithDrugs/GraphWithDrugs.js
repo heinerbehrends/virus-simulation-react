@@ -10,10 +10,15 @@ const GraphWithDrugs = ({ resultArrays, title }) => {
     );
   }
 
+  const [virusCount, resistentCount] = makeData(resultArrays);
+
   return (
     <Plot
-      data={makeData(resultArrays)}
-      layout={{ ...layout, title }}
+      data={[
+        Object.defineProperty(virusCount, 'name', { value: 'Virus count' }),
+        Object.defineProperty(resistentCount, 'name', { value: 'Resistent virus count' }),
+      ]}
+      layout={{ ...layout, title, showlegend: false }}
       useResizeHandler
       style={{ width: '100%' }}
       yaxis={{ styleanchor: 'x' }}
