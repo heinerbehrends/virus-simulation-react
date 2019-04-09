@@ -44,13 +44,9 @@ function simulationWithDrugs({
     maxPop,
     drugs,
   });
-  console.log(runSim(
-    { drugTime, patientWithDrugs },
-  ));
   const [newPatient, firstArray] = runSim(
     { repetitions: drugTime, patientWithDrugs },
   );
-  console.log(newPatient.getVirusCount());
   return mergePairs(
     firstArray.concat(
       runSim({

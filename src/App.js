@@ -1,16 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SimpleGraphPage from './SimpleGraphPage/SimpleGraphPage';
+import PageWithDrugs from './PageWithDrugs/PageWithDrugs';
 import Histogram from './histoSim/Histogram';
-import GraphWithDrugs from './simWithDrugs/GraphWithDrugs';
 
-const PageWithDrugs = () => (
-  <GraphWithDrugs
-    drugTime={100}
-    maxPop={1000}
-    title="Virus Population with drug and resistence"
-  />
-);
 
 const HistoPage = () => (
   <Histogram

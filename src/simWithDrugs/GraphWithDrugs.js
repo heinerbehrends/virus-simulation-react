@@ -6,7 +6,7 @@ import { layout, makePlot } from '../simpleSim/SimpleGraph';
 // import makePatientWithDrugs from '../patients/patientWithDrugs';
 // import makeResistentVirusArray from '../viruses/resistentVirus';
 
-const GraphWithDrugs = ({ drugTime, title }) => {
+const GraphWithDrugs = ({ maxPop, drugTime, title }) => {
   function makeData(arrays) {
     return arrays.map(
       array => makePlot(array),
@@ -17,7 +17,7 @@ const GraphWithDrugs = ({ drugTime, title }) => {
     virusCount: 100,
     resistences: { guttagonol: false },
     drugs: [],
-    maxPop: 1000,
+    maxPop,
   });
 
   return (
@@ -30,6 +30,7 @@ const GraphWithDrugs = ({ drugTime, title }) => {
 
 GraphWithDrugs.propTypes = {
   drugTime: PropTypes.number.isRequired,
+  maxPop: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 };
 
