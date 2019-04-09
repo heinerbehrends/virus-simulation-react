@@ -34,34 +34,36 @@ const SimpleGraphPage = () => {
       <SimpleGraph
         simData={simData}
       />
-      <MultipleInputs
-        configs={[
-          {
-            label: 'Maximum virus population',
-            func: setMaxPop,
-            max: 10000,
-            value: maxPop,
-          },
-          {
-            label: 'Probability of producing offspring',
-            func: setBirthProb,
-            max: 100,
-            value: birthProb,
-          },
-          {
-            label: 'Probability of dying',
-            func: setClearProb,
-            max: 100,
-            value: clearProb,
-          },
-          {
-            label: 'Number of time steps',
-            func: setRepetitions,
-            max: 1000,
-            value: repetitions,
-          },
-        ]}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', flexFlow: 'row-wrap' }}>
+        <MultipleInputs
+          configs={[
+            {
+              label: 'Maximum virus population',
+              func: setMaxPop,
+              max: 10000,
+              value: maxPop,
+            },
+            {
+              label: 'Probability of producing offspring',
+              func: setBirthProb,
+              max: 100,
+              value: birthProb,
+            },
+            {
+              label: 'Probability of dying',
+              func: setClearProb,
+              max: 100,
+              value: clearProb,
+            },
+            {
+              label: 'Number of time steps',
+              func: setRepetitions,
+              max: 1000,
+              value: repetitions,
+            },
+          ]}
+        />
+      </div>
     </>
   );
 };

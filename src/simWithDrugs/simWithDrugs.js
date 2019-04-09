@@ -47,7 +47,7 @@ function simulationWithDrugs({
   const [newPatient, firstArray] = runSim(
     { repetitions: drugTime, patientWithDrugs },
   );
-  return mergePairs(
+  const result = mergePairs(
     firstArray.concat(
       runSim({
         patientWithDrugs: newPatient.addDrug('guttagonol'),
@@ -55,6 +55,7 @@ function simulationWithDrugs({
       })[1],
     ),
   );
+  return new Promise(resolve => resolve(result));
 }
 
 export default simulationWithDrugs;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { curry } from 'ramda';
-import { TextInput } from '../ScreenName/ScreenNameStyled';
+import { InputStyled } from '../Button/ButtonStyled';
 
 const handleNrInput = curry(
   ({ setFunc, max }, { target: { value } }) => {
@@ -22,17 +22,19 @@ const handleNrInput = curry(
 );
 
 const NumberInput = ({ label, func, value }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-    <span style={{ marginLeft: '2rem' }}>
+  <tr>
+    <td style={{ padding: '1rem' }}>
       {label}
-    </span>
-    <TextInput
-      onClick={({ currentTarget }) => currentTarget.select()}
-      onChange={func}
-      size="4"
-      value={value}
-    />
-  </div>
+    </td>
+    <td style={{ padding: '1rem' }}>
+      <InputStyled
+        onClick={({ currentTarget }) => currentTarget.select()}
+        onChange={func}
+        size="4"
+        value={value}
+      />
+    </td>
+  </tr>
 );
 
 NumberInput.propTypes = {
@@ -42,22 +44,33 @@ NumberInput.propTypes = {
 };
 
 const MultipleInputs = ({ configs }) => (
-  configs.map(
-    ({
-      label,
-      func,
-      max,
-      value,
-    }, idx) => (
-      <NumberInput
-        label={label}
-        func={handleNrInput({ setFunc: func, max })}
-        value={value}
-        // eslint-disable-next-line react/no-array-index-key
-        key={idx}
-      />
-    ),
-  )
+  <table style={{ marginLeft: '3rem' }}>
+    {configs.map(
+      ({
+        label,
+        func,
+        max,
+        value,
+      }, idx) => (
+        <NumberInput
+          label={label}
+          func={handleNrInput({ setFunc: func, max })}
+          value={value}
+          // eslint-disable-next-line react/no-array-index-key
+          key={idx}
+        />
+      ),
+    )}
+  </table>
 );
+
+MultipleInputs.propTypes = {
+  configs: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
+    func: PropTypes.func.isRequired,
+  })).isRequired,
+};
+
 
 export default MultipleInputs;

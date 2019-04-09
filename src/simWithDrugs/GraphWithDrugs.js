@@ -6,24 +6,20 @@ import { layout, makePlot } from '../simpleSim/SimpleGraph';
 // import makePatientWithDrugs from '../patients/patientWithDrugs';
 // import makeResistentVirusArray from '../viruses/resistentVirus';
 
-const GraphWithDrugs = ({ maxPop, drugTime, title }) => {
+const GraphWithDrugs = ({ resultArrays, title }) => {
   function makeData(arrays) {
     return arrays.map(
       array => makePlot(array),
     );
   }
-  const resultArrays = simulationWithDrugs({
-    drugTime,
-    virusCount: 100,
-    resistences: { guttagonol: false },
-    drugs: [],
-    maxPop,
-  });
 
   return (
     <Plot
       data={makeData(resultArrays)}
       layout={{ ...layout, title }}
+      useResizeHandler
+      style={{ width: '100%' }}
+      yaxis={{ styleanchor: 'x' }}
     />
   );
 };
