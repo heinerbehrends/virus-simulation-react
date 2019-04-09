@@ -70,8 +70,8 @@ function withDrugs(
   });
 }
 
-const makePatientWithDrugs = ({ initialViruses, maxPop, drugs }) => (
-  withDrugs(makePatient(initialViruses, maxPop), drugs)
+const makePatientWithDrugs = ({ viruses, maxPop, drugs }) => (
+  withDrugs(makePatient(viruses, maxPop), drugs)
 );
 
 export default makePatientWithDrugs;

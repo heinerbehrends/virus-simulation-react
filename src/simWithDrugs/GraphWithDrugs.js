@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import { simulationWithDrugs, sim } from './simWithDrugs';
+import simulationWithDrugs from './simWithDrugs';
 import { layout, makePlot } from '../simpleSim/SimpleGraph';
-import makePatientWithDrugs from '../patients/patientWithDrugs';
-import makeResistentVirusArray from '../viruses/resistentVirus';
+// import makePatientWithDrugs from '../patients/patientWithDrugs';
+// import makeResistentVirusArray from '../viruses/resistentVirus';
 
 const GraphWithDrugs = ({ drugTime, title }) => {
   function makeData(arrays) {
@@ -13,15 +13,11 @@ const GraphWithDrugs = ({ drugTime, title }) => {
     );
   }
   const resultArrays = simulationWithDrugs({
-    func: sim,
-    patient: makePatientWithDrugs({
-      initialViruses: makeResistentVirusArray(
-        100,
-        { guttagonol: false, grimpex: false },
-      ),
-      maxPop: 1000,
-    }),
     drugTime,
+    virusCount: 100,
+    resistences: { guttagonol: false },
+    drugs: [],
+    maxPop: 1000,
   });
 
   return (

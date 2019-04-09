@@ -1,7 +1,11 @@
 import { map } from 'ramda';
 import { makeSimpleVirus } from './simpleVirus';
 
-function withResistences({ doesSurvive, doesReproduce }, initialResistences, muteProb = 0.005) {
+function withResistences(
+  { doesSurvive, doesReproduce },
+  initialResistences,
+  muteProb = 0.005,
+) {
   const resistences = initialResistences;
   const isResistentAgainst = drug => resistences[drug];
 
@@ -17,15 +21,14 @@ function withResistences({ doesSurvive, doesReproduce }, initialResistences, mut
     );
   }
 
-  const isResistent = (drugs) => {
-    if (drugs.length) {
-      return drugs.reduce(
+  const isResistent = drugs => (
+    drugs.length
+      ? drugs.reduce(
         (bool, drug) => (bool ? isResistentAgainst(drug) : false),
         true,
-      );
-    }
-    return true;
-  };
+      )
+      : true
+  );
 
   return Object.freeze({
     doesSurvive,
@@ -41,7 +44,7 @@ export const makeResistentVirus = resistences => (
 );
 
 const makeResistentVirusArray = (
-  (length, resistences) => Array(length).fill(makeResistentVirus(resistences))
+  ({ virusCount, resistences }) => Array(virusCount).fill(makeResistentVirus(resistences))
 );
 
 export default makeResistentVirusArray;

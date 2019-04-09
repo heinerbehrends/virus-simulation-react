@@ -7,6 +7,7 @@ import GraphWithDrugs from './simWithDrugs/GraphWithDrugs';
 const PageWithDrugs = () => (
   <GraphWithDrugs
     drugTime={100}
+    maxPop={1000}
     title="Virus Population with drug and resistence"
   />
 );

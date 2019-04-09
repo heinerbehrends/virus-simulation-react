@@ -1,6 +1,18 @@
-import { runSimulation } from '../simpleSim/simpleSim';
+import { mapAccum, curry } from 'ramda';
+import makePatientWithDrugs from '../patients/patientWithDrugs';
+import makeResistentVirusArray from '../viruses/resistentVirus';
 
-export const sim = patientWithDrugs => (
+export const runSimulationWithDrugs = curry(
+  (func, { repetitions, patientWithDrugs }) => (
+    mapAccum(
+      func,
+      patientWithDrugs,
+      [...Array(repetitions)],
+    )
+  ),
+);
+
+const sim = patientWithDrugs => (
   [
     patientWithDrugs.updateViruses(),
     [
@@ -10,31 +22,43 @@ export const sim = patientWithDrugs => (
   ]
 );
 
+const runSim = runSimulationWithDrugs(sim);
+
 const mergePairs = pairs => pairs.reduce(
   (acc, pair) => [[...acc[0], pair[0]], [...acc[1], pair[1]]],
   [[], []],
 );
 
-export function simulationWithDrugs({
-  func,
-  patient,
+function simulationWithDrugs({
   drugTime,
+  virusCount,
+  resistences,
+  drugs,
+  maxPop,
 }) {
-  const [newPatient, firstArray] = runSimulation({
-    func,
-    patient,
-    repetitions: drugTime,
+  const patientWithDrugs = makePatientWithDrugs({
+    viruses: makeResistentVirusArray({
+      virusCount,
+      resistences,
+    }),
+    maxPop,
+    drugs,
   });
-
+  console.log(runSim(
+    { drugTime, patientWithDrugs },
+  ));
+  const [newPatient, firstArray] = runSim(
+    { repetitions: drugTime, patientWithDrugs },
+  );
+  console.log(newPatient.getVirusCount());
   return mergePairs(
     firstArray.concat(
-      runSimulation({
-        func,
-        patient: newPatient.addDrug('guttagonol'),
+      runSim({
+        patientWithDrugs: newPatient.addDrug('guttagonol'),
         repetitions: 300 - drugTime,
       })[1],
     ),
   );
 }
 
-export default runSimulation;
+export default simulationWithDrugs;
