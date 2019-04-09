@@ -22,7 +22,7 @@ const handleNrInput = curry(
 );
 
 const NumberInput = ({ label, func, value }) => (
-  <tr>
+  <tr style={{ borderBottom: '1px solid grey' }}>
     <td style={{ padding: '1rem' }}>
       {label}
     </td>
@@ -44,7 +44,7 @@ NumberInput.propTypes = {
 };
 
 const MultipleInputs = ({ configs }) => (
-  <table style={{ marginLeft: '3rem' }}>
+  <table style={{ marginLeft: 'auto', marginRight: 'auto', borderCollapse: 'collapse' }}>
     {configs.map(
       ({
         label,
