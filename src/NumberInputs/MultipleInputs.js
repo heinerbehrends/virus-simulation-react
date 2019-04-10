@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { curry } from 'ramda';
 import { InputStyled } from '../Button/ButtonStyled';
 
@@ -21,20 +22,30 @@ const handleNrInput = curry(
   },
 );
 
+const TRStyled = styled.tr`
+  border-bottom: 1px solid gray;
+`;
+
+const TDStyled = styled.td`
+  font-family: sans-serif;
+  color: darkslategray;
+  padding: 1rem;
+`;
+
 const NumberInput = ({ label, func, value }) => (
-  <tr style={{ borderBottom: '1px solid grey' }}>
-    <td style={{ padding: '1rem' }}>
+  <TRStyled>
+    <TDStyled>
       {label}
-    </td>
-    <td style={{ padding: '1rem' }}>
+    </TDStyled>
+    <TDStyled>
       <InputStyled
         onClick={({ currentTarget }) => currentTarget.select()}
         onChange={func}
         size="4"
         value={value}
       />
-    </td>
-  </tr>
+    </TDStyled>
+  </TRStyled>
 );
 
 NumberInput.propTypes = {
@@ -43,8 +54,15 @@ NumberInput.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
+const TableStyled = styled.table`
+ margin-left: auto;
+ margin-right: auto;
+ margin-bottom: 2rem;
+ border-collapse: collapse;
+`;
+
 const MultipleInputs = ({ configs }) => (
-  <table style={{ marginLeft: 'auto', marginRight: 'auto', borderCollapse: 'collapse' }}>
+  <TableStyled>
     {configs.map(
       ({
         label,
@@ -61,7 +79,7 @@ const MultipleInputs = ({ configs }) => (
         />
       ),
     )}
-  </table>
+  </TableStyled>
 );
 
 MultipleInputs.propTypes = {
