@@ -44,13 +44,13 @@ const SimpleGraphPage = () => {
           },
           {
             label: 'Probability of producing offspring',
-            value: birthProb,
+            value: `${birthProb} %`,
             func: setBirthProb,
             max: 100,
           },
           {
             label: 'Probability of dying',
-            value: clearProb,
+            value: `${clearProb} %`,
             func: setClearProb,
             max: 100,
           },
