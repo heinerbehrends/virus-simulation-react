@@ -29,16 +29,16 @@ const PageWithDrugs = () => {
       <MultipleInputs
         configs={[
           {
-            label: 'Maximum virus population',
-            value: maxPop,
-            func: setMaxPop,
-            max: 10000,
-          },
-          {
             label: 'Time steps before adding drug',
             value: drugTime,
             func: setDrugTime,
             max: 300,
+          },
+          {
+            label: 'Maximum virus population',
+            value: maxPop,
+            func: setMaxPop,
+            max: 10000,
           },
         ]}
       />
