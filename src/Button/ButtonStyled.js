@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const InputStyled = styled.input`
+  color: inherit;
   display: inline;
   vertical-align: middle;
   border-width: 0px;
