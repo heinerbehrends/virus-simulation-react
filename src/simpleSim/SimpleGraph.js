@@ -4,6 +4,7 @@ import Plot from 'react-plotly.js';
 
 export const layout = {
   title: 'Simple Virus Population Simulation',
+  height: 400,
   autosize: true,
 };
 
@@ -20,7 +21,7 @@ const SimpleGraph = ({ simData }) => (
     data={[makePlot(simData)]}
     layout={layout}
     useResizeHandler
-    style={{ width: '100%' }}
+    style={{ maxWidth: '700px', marginLeft: 'auto', marginRight: 'auto' }}
   />
 );
 

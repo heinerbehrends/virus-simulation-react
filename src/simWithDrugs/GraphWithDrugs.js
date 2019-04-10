@@ -20,7 +20,7 @@ const GraphWithDrugs = ({ resultArrays, title }) => {
       ]}
       layout={{ ...layout, title, showlegend: false }}
       useResizeHandler
-      style={{ width: '100%' }}
+      style={{ maxWidth: '700px', marginLeft: 'auto', marginRight: 'auto' }}
       yaxis={{ styleanchor: 'x' }}
     />
   );
