@@ -1,24 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import makeHistoSimArray from './histoSims';
 import { layout } from '../simpleSim/SimpleGraph';
-import makePatientWithDrugs from '../patients/patientWithDrugs';
-import makeResistentVirusArray from '../viruses/resistentVirus';
 
-const Histogram = ({ drugTime, title }) => {
-  const histoResult = makeHistoSimArray({
-    patient: makePatientWithDrugs({
-      initialViruses: makeResistentVirusArray(
-        100,
-        { guttagonol: false, grimpex: false },
-      ),
-      maxPop: 1000,
-    }),
-    repetitions: 100,
-    drugTime,
-  }).toArray();
-
+const Histogram = ({ simData, title }) => {
   const makeData = arr => (
     [{
       x: arr,
@@ -28,16 +13,19 @@ const Histogram = ({ drugTime, title }) => {
       },
     }]
   );
+
   return (
     <Plot
-      data={makeData(histoResult)}
+      style={{ maxWidth: '700px', marginLeft: 'auto', marginRight: 'auto' }}
+      data={makeData(simData)}
+      useResizeHandler
       layout={{ ...layout, title }}
     />
   );
 };
 
 Histogram.propTypes = {
-  drugTime: PropTypes.number.isRequired,
+  simData: PropTypes.arrayOf(PropTypes.number).isRequired,
   title: PropTypes.string.isRequired,
 };
 

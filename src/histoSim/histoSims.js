@@ -21,10 +21,11 @@ const histoSim = drugTime => (
     repeatVirusUpdate(150),
   )
 );
-const makeHistoSimArray = ({ patient, repetitions, drugTime }) => (
-  List([...Array(repetitions)]).map(
+const makeHistoSimArray = ({ patient, repetitions, drugTime }) => {
+  const result = List([...Array(repetitions)]).map(
     () => histoSim(drugTime)(patient).getVirusCount(),
-  )
-);
+  );
+  return new Promise(resolve => resolve(result));
+};
 
 export default makeHistoSimArray;

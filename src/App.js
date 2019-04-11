@@ -2,15 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SimpleGraphPage from './SimpleGraphPage/SimpleGraphPage';
 import PageWithDrugs from './PageWithDrugs/PageWithDrugs';
-import Histogram from './histoSim/Histogram';
+import HistoPage from './HistoPage/HistoPage';
 
-
-const HistoPage = () => (
-  <Histogram
-    drugTime={150}
-    title="Histogram of virus population"
-  />
-);
 
 // const Menu = () => (
 //   <>
