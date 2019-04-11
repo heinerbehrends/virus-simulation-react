@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Button from '../Button/Button';
 import Histogram from '../histoSim/Histogram';
 import MultipleInputs from '../NumberInputs/MultipleInputs';
 import makeHistoSimArray from '../histoSim/histoSims';
@@ -28,6 +30,10 @@ const HistoPage = () => {
 
   return (
     <>
+      <Link to="/histogram2/">
+        <Button value="Next" />
+      </Link>
+
       <Histogram
         simData={simData}
         title="Histogram of virus population"

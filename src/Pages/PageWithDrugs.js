@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Button from '../Button/Button';
 import GraphWithDrugs from '../simWithDrugs/GraphWithDrugs';
 import MultipleInputs from '../NumberInputs/MultipleInputs';
 import simulationWithDrugs from '../simWithDrugs/simWithDrugs';
@@ -22,6 +24,10 @@ const PageWithDrugs = () => {
 
   return (
     <>
+      <Link to="/histogram/">
+        <Button value="Next" />
+      </Link>
+
       <GraphWithDrugs
         resultArrays={simData}
         title="Virus Population with drug and resistence"
